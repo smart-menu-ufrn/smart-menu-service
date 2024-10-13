@@ -1,0 +1,40 @@
+services:
+  db-postgres:
+    image: postgres:latest
+    container_name: db-postgres
+    hostname: db-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: muser
+      POSTGRES_PASSWORD: mpassword
+      POSTGRES_DB: smart_menu
+    ports:
+      - "5432:5432/tcp"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # - ./postgres/data:/csv_files
+      # - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./Postgresql/postgresql.conf:/var/lib/postgresql/conf/postgresql.conf
+    networks:
+      default:
+        ipv4_address: 172.18.0.2
+    command: postgres -c config_file=/var/lib/postgresql/conf/postgresql.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      start_period: 3s
+      interval: 1s
+      timeout: 3s
+      retries: 2
+
+
+networks:
+  default:
+    name: ed-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
+
+volumes:
+  postgres_data:
