@@ -17,7 +17,7 @@ services:
       - ./Postgresql/postgresql.conf:/var/lib/postgresql/conf/postgresql.conf
     networks:
       default:
-        ipv4_address: 172.18.0.2
+        ipv4_address: 172.22.0.2
     command: postgres -c config_file=/var/lib/postgresql/conf/postgresql.conf
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
@@ -34,7 +34,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.18.0.0/24
+        - subnet: 172.22.0.0/24
 
 volumes:
   postgres_data:

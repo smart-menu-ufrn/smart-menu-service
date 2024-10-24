@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class MenuItem {
@@ -11,15 +12,20 @@ public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+    
     private String description;
+    
     private Double price;
-    private String category;
+    
+    @ManyToOne
+    private Category category;
 
     public MenuItem() {
     }
 
-    public MenuItem(String name, String description, Double price, String category) {
+    public MenuItem(String name, String description, Double price, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -58,11 +64,11 @@ public class MenuItem {
         this.price = price;
     }
 
-    public String getCategory() {
-        return category;
+    public Category getCategory() {
+        return this.category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
