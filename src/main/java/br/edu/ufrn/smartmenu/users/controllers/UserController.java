@@ -43,8 +43,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateRequestDTO userDTO) {
-        UserResponseDTO userResponseDTO = userService.createUser(userDTO);
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+        UserResponseDTO userResponseDTO = userService.createUser(userCreateRequestDTO);
 
         URI location = URI.create("/users/" + userResponseDTO.getId());
 
