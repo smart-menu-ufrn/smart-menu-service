@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class UserController {
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         List<UserResponseDTO> userResponseDTOList = userService.getAllUsers();
 
-        return ResponseEntity.ok(userResponseDTOList);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDTOList);
     }
 
     @GetMapping("/{id}")
@@ -36,9 +37,9 @@ public class UserController {
         try {
             UserResponseDTO userResponseDTO = userService.getUserById(id);
             
-            return ResponseEntity.ok(userResponseDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(userResponseDTO);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -48,7 +49,7 @@ public class UserController {
 
         URI location = URI.create("/users/" + userResponseDTO.getId());
 
-        return ResponseEntity.created(location).body(userResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(userResponseDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -56,9 +57,9 @@ public class UserController {
         try {
             userService.deleteUser(id);
 
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
