@@ -114,3 +114,6 @@ atlassian-ide-plugin.xml
 
 # Environment variables
 .env
+
+# idea
+.idea
