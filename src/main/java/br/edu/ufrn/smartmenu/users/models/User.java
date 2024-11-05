@@ -1,5 +1,7 @@
 package br.edu.ufrn.smartmenu.users.models;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +15,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(
@@ -70,13 +70,15 @@ public class User {
     }
 
     private String generateEncriptedPassword(String rawPassword) {
-        String encodedPassword = new BCryptPasswordEncoder().encode(rawPassword);
-        
+        String encodedPassword = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+
         return encodedPassword;
     }
 
-    public boolean passwordIsValid(String passwordToValidate) {
-        return new BCryptPasswordEncoder().matches(passwordToValidate, this.password);
+    public Boolean passwordIsValid(String passwordToValidate) {
+        Boolean isValid = BCrypt.checkpw(passwordToValidate, this.password);
+
+        return isValid;
     }
 
     public Profile getProfile() {
