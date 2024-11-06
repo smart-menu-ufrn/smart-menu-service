@@ -1,6 +1,7 @@
 package br.edu.ufrn.smartmenu.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ufrn.smartmenu.model.Stock;
+import br.edu.ufrn.smartmenu.model.MenuItem;
+
 import br.edu.ufrn.smartmenu.service.StockService;
 import br.edu.ufrn.smartmenu.service.MenuItemService;
+
+import br.edu.ufrn.smartmenu.dto.StockDTO;
 
 
 @RestController
@@ -44,17 +49,33 @@ public class StockController {
     }
 
     @PostMapping
-    public Stock createStock(@RequestBody Stock stockDetails){
+    public Stock createStock(@RequestBody StockDTO stockDetails){
     
-        return stockService.createStock(stockDetails);
+        Optional<MenuItem> menuItemOptional = menuItemService.getMenuItemById(stockDetails.getMenuItemId());
+        MenuItem menuItem = menuItemOptional.orElseThrow(() -> new RuntimeException("Item not found"));
+
+        Stock stock = new Stock();
+        stock.setMenuItem(menuItem);
+        stock.setQuantity(stockDetails.getQuantity());
+
+
+        return stockService.createStock(stock);
     
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Stock> updateStock(@PathVariable Long id, @RequestBody Stock stockDetails){
+    public ResponseEntity<Stock> updateStock(@PathVariable Long id, @RequestBody StockDTO stockDetails){
+
+        Optional<MenuItem> menuItemOptional = menuItemService.getMenuItemById(stockDetails.getMenuItemId());
+        MenuItem menuItem = menuItemOptional.orElseThrow(() -> new RuntimeException("Item not found"));
+
+        Stock stock = new Stock();
+        stock.setMenuItem(menuItem);
+        stock.setQuantity(stockDetails.getQuantity());
+
 
         try{
-            Stock updatedStock = stockService.updateStock(id, stockDetails);
+            Stock updatedStock = stockService.updateStock(id, stock);
             return ResponseEntity.ok(updatedStock);
         }catch (RuntimeException e){
             return ResponseEntity.notFound().build();
