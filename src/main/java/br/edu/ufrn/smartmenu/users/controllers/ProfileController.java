@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ufrn.smartmenu.users.dtos.ProfileResponseDTO;
-import br.edu.ufrn.smartmenu.users.dtos.ProfileUpdateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.requests.ProfileUpdateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.responses.ProfileResponseDTO;
 import br.edu.ufrn.smartmenu.users.services.ProfileService;
 
 @RestController

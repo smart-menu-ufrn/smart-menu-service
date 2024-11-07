@@ -1,4 +1,4 @@
-package br.edu.ufrn.smartmenu.users.dtos;
+package br.edu.ufrn.smartmenu.users.dtos.requests;
 
 import br.edu.ufrn.smartmenu.users.enums.Gender;
 import br.edu.ufrn.smartmenu.users.models.Profile;

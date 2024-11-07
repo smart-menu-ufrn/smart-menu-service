@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ufrn.smartmenu.users.dtos.UserCreateRequestDTO;
-import br.edu.ufrn.smartmenu.users.dtos.UserResponseDTO;
+import br.edu.ufrn.smartmenu.users.dtos.requests.UserCreateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.requests.UserUpdateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.responses.UserResponseDTO;
 import br.edu.ufrn.smartmenu.users.services.UserService;
 
 @RestController
@@ -34,6 +36,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDTOList);
     }
 
+    @PostMapping
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+        UserResponseDTO userResponseDTO = userService.createUser(userCreateRequestDTO);
+
+        URI location = URI.create("/users/" + userResponseDTO.getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(userResponseDTO);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         try {
@@ -45,13 +56,17 @@ public class UserController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
-        UserResponseDTO userResponseDTO = userService.createUser(userCreateRequestDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(
+        @PathVariable Long id,
+        @RequestBody UserUpdateRequestDTO userUpdateRequestDTO
+    ) {
+        UserResponseDTO userResponseDTO = userService.updateUser(
+            id,
+            userUpdateRequestDTO
+        );
 
-        URI location = URI.create("/users/" + userResponseDTO.getId());
-
-        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(userResponseDTO);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userResponseDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -5,8 +5,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.ufrn.smartmenu.auth.dtos.AuthRequestDTO;
+import br.edu.ufrn.smartmenu.auth.dtos.requests.AuthRequestDTO;
 import br.edu.ufrn.smartmenu.auth.exceptions.InvalidCredentialsException;
+import br.edu.ufrn.smartmenu.users.exceptions.IncorrectPasswordException;
 import br.edu.ufrn.smartmenu.users.models.User;
 import br.edu.ufrn.smartmenu.users.repositories.UserRepository;
 
@@ -25,9 +26,9 @@ public class AuthService {
 
         User user = userRepository.findByEmail(authRequestDTO.getEmail()).get();
 
-        Boolean isAuthenticated = user.passwordIsValid(authRequestDTO.getPassword());
-
-        if (!isAuthenticated) {
+        try {
+            user.validatePassword(authRequestDTO.getPassword());
+        } catch (IncorrectPasswordException e) {
             throw new InvalidCredentialsException("invalid password.");
         }
     }

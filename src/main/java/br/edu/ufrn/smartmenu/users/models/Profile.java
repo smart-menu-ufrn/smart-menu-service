@@ -26,8 +26,7 @@ public class Profile {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    public Profile() {
-    }
+    public Profile() {}
 
     public Profile(String name, String phone, Gender gender) {
         this.name = name;
