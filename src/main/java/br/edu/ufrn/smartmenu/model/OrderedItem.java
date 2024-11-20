@@ -4,36 +4,34 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
-import br.edu.ufrn.smartmenu.model.Category;
-
+import br.edu.ufrn.smartmenu.model.MenuItem;
 
 @Entity
-public class Stock {
+public class OrderedItem {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
 
-    @OneToOne
+
+    @ManyToOne
     private MenuItem menuItem;
-    
+
 
     private int quantity;
-    
 
-    public Stock() {
+
+
+    public OrderedItem() {
     }
 
-    public Stock(MenuItem menuItem, int quantity) {
+    public OrderedItem(MenuItem menuItem, int quantity) {
         this.menuItem = menuItem;
         this.quantity = quantity;
     }
+
 
     public Long getId() {
         return this.id;
@@ -51,16 +49,14 @@ public class Stock {
         this.quantity = quantity;
     }
 
-    public void setMenuItem(MenuItem menuItem){
-        this.menuItem = menuItem;
-    }
-
     public MenuItem getMenuItem(){
         return this.menuItem;
     }
 
-    
+    public void setMenuItem(MenuItem menuItem){
+        this.menuItem = menuItem;
+    }
 
 
-   
+
 }
