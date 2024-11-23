@@ -30,7 +30,6 @@ public class UserService {
     }
 
     public UserResponseDTO getUserById(Long id) {
-
         User user = userRepository.findById(id).get();
 
         UserResponseDTO userResponseDTO = new UserResponseDTO(user);
@@ -47,7 +46,7 @@ public class UserService {
     }
 
     public UserResponseDTO createUser(UserCreateRequestDTO userCreateRequestDTO) {
-        User user = userCreateRequestDTO.toUser();
+        User user = userCreateRequestDTO.toEntity();
 
         user = userRepository.save(user);
 

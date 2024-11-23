@@ -9,6 +9,8 @@ public class UserCreateRequestDTO {
     private String password;
     private Role role;
 
+    public UserCreateRequestDTO() {}
+
     public UserCreateRequestDTO(
         String email,
         String password,
@@ -31,7 +33,7 @@ public class UserCreateRequestDTO {
         return role;
     }
 
-    public User toUser() {
+    public User toEntity() {
         return new User(this.getEmail(), this.getPassword(), this.getRole());
     }
     

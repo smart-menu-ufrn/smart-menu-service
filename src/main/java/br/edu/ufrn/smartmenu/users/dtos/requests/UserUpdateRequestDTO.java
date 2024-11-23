@@ -7,6 +7,8 @@ public class UserUpdateRequestDTO {
     
     private Role role;
 
+    public UserUpdateRequestDTO() {}
+
     public UserUpdateRequestDTO(Role role) {
         this.role = role;
     }

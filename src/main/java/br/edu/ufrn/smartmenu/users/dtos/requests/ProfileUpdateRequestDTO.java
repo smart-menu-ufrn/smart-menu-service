@@ -8,6 +8,8 @@ public class ProfileUpdateRequestDTO {
     private String name;
     private String phone;
     private Gender gender;
+ 
+    public ProfileUpdateRequestDTO() {}
 
     public ProfileUpdateRequestDTO(String name, String phone, Gender gender) {
         this.name = name;

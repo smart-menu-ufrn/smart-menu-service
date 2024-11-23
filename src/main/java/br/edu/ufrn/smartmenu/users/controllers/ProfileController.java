@@ -1,5 +1,7 @@
 package br.edu.ufrn.smartmenu.users.controllers;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +29,16 @@ public class ProfileController {
         @PathVariable Long id,
         @RequestBody ProfileUpdateRequestDTO profileUpdateRequestDTO
     ) {
-        ProfileResponseDTO profileResponseDTO = profileService.updateProfile(
-            id,
-            profileUpdateRequestDTO
-        );
+        try {
+            ProfileResponseDTO profileResponseDTO = profileService.updateProfile(
+                id,
+                profileUpdateRequestDTO
+            );
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(profileResponseDTO);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(profileResponseDTO);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package br.edu.ufrn.smartmenu.users.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+    public ResponseEntity<UserResponseDTO> createUser(
+        @RequestBody UserCreateRequestDTO userCreateRequestDTO
+    ) {
         UserResponseDTO userResponseDTO = userService.createUser(userCreateRequestDTO);
 
         URI location = URI.create("/users/" + userResponseDTO.getId());
@@ -46,12 +49,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> getUserById(
+        @PathVariable Long id
+    ) {
         try {
             UserResponseDTO userResponseDTO = userService.getUserById(id);
             
             return ResponseEntity.status(HttpStatus.OK).body(userResponseDTO);
-        } catch (RuntimeException e) {
+        } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
@@ -61,12 +66,16 @@ public class UserController {
         @PathVariable Long id,
         @RequestBody UserUpdateRequestDTO userUpdateRequestDTO
     ) {
-        UserResponseDTO userResponseDTO = userService.updateUser(
-            id,
-            userUpdateRequestDTO
-        );
+        try {
+            UserResponseDTO userResponseDTO = userService.updateUser(
+                id,
+                userUpdateRequestDTO
+            );
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userResponseDTO);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(userResponseDTO);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -75,7 +84,7 @@ public class UserController {
             userService.deleteUser(id);
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (RuntimeException e) {
+        } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
