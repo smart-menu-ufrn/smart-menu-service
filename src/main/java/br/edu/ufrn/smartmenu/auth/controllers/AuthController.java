@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ufrn.smartmenu.auth.dtos.AuthRequestDTO;
+import br.edu.ufrn.smartmenu.auth.dtos.requests.AuthRequestDTO;
 import br.edu.ufrn.smartmenu.auth.exceptions.InvalidCredentialsException;
 import br.edu.ufrn.smartmenu.auth.services.AuthService;
 

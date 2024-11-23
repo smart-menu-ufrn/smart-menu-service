@@ -1,4 +1,4 @@
-package br.edu.ufrn.smartmenu.users.dtos;
+package br.edu.ufrn.smartmenu.users.dtos.requests;
 
 import br.edu.ufrn.smartmenu.users.enums.Gender;
 import br.edu.ufrn.smartmenu.users.models.Profile;
@@ -8,6 +8,8 @@ public class ProfileUpdateRequestDTO {
     private String name;
     private String phone;
     private Gender gender;
+ 
+    public ProfileUpdateRequestDTO() {}
 
     public ProfileUpdateRequestDTO(String name, String phone, Gender gender) {
         this.name = name;

@@ -1,4 +1,4 @@
-package br.edu.ufrn.smartmenu.auth.dtos;
+package br.edu.ufrn.smartmenu.auth.dtos.requests;
 
 public class AuthRequestDTO {
     private String email;

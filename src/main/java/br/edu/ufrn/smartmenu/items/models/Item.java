@@ -1,13 +1,15 @@
-package br.edu.ufrn.smartmenu.model;
+package br.edu.ufrn.smartmenu.items.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-public class MenuItem {
+@Table(name = "items")
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +24,15 @@ public class MenuItem {
     @ManyToOne
     private Category category;
 
-    public MenuItem() {
+    public Item() {}
+
+    public Item(String name, String description, Double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
     }
 
-    public MenuItem(String name, String description, Double price, Category category) {
+    public Item(String name, String description, Double price, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -34,10 +41,6 @@ public class MenuItem {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -72,32 +75,4 @@ public class MenuItem {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "MenuItem{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", category='" + category + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MenuItem menuItem = (MenuItem) o;
-
-        if (!id.equals(menuItem.id)) return false;
-        return name.equals(menuItem.name);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        return result;
-    }
 }

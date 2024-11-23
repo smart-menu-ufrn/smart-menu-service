@@ -3,8 +3,8 @@ package br.edu.ufrn.smartmenu.users.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.ufrn.smartmenu.users.dtos.ProfileResponseDTO;
-import br.edu.ufrn.smartmenu.users.dtos.ProfileUpdateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.requests.ProfileUpdateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.responses.ProfileResponseDTO;
 import br.edu.ufrn.smartmenu.users.models.Profile;
 import br.edu.ufrn.smartmenu.users.models.User;
 import br.edu.ufrn.smartmenu.users.repositories.ProfileRepository;

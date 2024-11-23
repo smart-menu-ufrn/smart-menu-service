@@ -1,11 +1,13 @@
-package br.edu.ufrn.smartmenu.model;
+package br.edu.ufrn.smartmenu.items.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "categories")
 public class Category {
     
     @Id
@@ -25,10 +27,6 @@ public class Category {
         return this.id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return this.name;
     }
@@ -36,4 +34,5 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+    
 }

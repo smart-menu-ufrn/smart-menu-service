@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.ufrn.smartmenu.users.dtos.UserCreateRequestDTO;
-import br.edu.ufrn.smartmenu.users.dtos.UserResponseDTO;
+import br.edu.ufrn.smartmenu.users.dtos.requests.UserCreateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.requests.UserUpdateRequestDTO;
+import br.edu.ufrn.smartmenu.users.dtos.responses.UserResponseDTO;
 import br.edu.ufrn.smartmenu.users.models.User;
 import br.edu.ufrn.smartmenu.users.repositories.UserRepository;
 
@@ -29,7 +30,6 @@ public class UserService {
     }
 
     public UserResponseDTO getUserById(Long id) {
-
         User user = userRepository.findById(id).get();
 
         UserResponseDTO userResponseDTO = new UserResponseDTO(user);
@@ -46,11 +46,23 @@ public class UserService {
     }
 
     public UserResponseDTO createUser(UserCreateRequestDTO userCreateRequestDTO) {
-        User user = userCreateRequestDTO.toUser();
+        User user = userCreateRequestDTO.toEntity();
 
         user = userRepository.save(user);
 
         UserResponseDTO userResponseDTO = new UserResponseDTO(user);
+
+        return userResponseDTO;
+    }
+
+    public UserResponseDTO updateUser(Long id, UserUpdateRequestDTO userUpdateRequestDTO) {
+        User user = userRepository.findById(id).get();
+
+        User updatedUser = userUpdateRequestDTO.updateEntity(user);
+
+        userRepository.save(updatedUser);
+
+        UserResponseDTO userResponseDTO = new UserResponseDTO(updatedUser);
 
         return userResponseDTO;
     }
