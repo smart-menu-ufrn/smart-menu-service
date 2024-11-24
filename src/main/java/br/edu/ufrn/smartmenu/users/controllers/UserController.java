@@ -32,20 +32,20 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        List<UserResponseDTO> userResponseDTOList = userService.getAllUsers();
+        List<UserResponseDTO> responseDTOList = userService.getAllUsers();
 
-        return ResponseEntity.status(HttpStatus.OK).body(userResponseDTOList);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTOList);
     }
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(
-        @RequestBody UserCreateRequestDTO userCreateRequestDTO
+        @RequestBody UserCreateRequestDTO requestDTO
     ) {
-        UserResponseDTO userResponseDTO = userService.createUser(userCreateRequestDTO);
+        UserResponseDTO responseDTO = userService.createUser(requestDTO);
 
-        URI location = URI.create("/users/" + userResponseDTO.getId());
+        URI location = URI.create("/users/" + responseDTO.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(userResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(responseDTO);
     }
 
     @GetMapping("/{id}")
@@ -53,9 +53,9 @@ public class UserController {
         @PathVariable Long id
     ) {
         try {
-            UserResponseDTO userResponseDTO = userService.getUserById(id);
+            UserResponseDTO responseDTO = userService.getUserById(id);
             
-            return ResponseEntity.status(HttpStatus.OK).body(userResponseDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -64,15 +64,15 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
         @PathVariable Long id,
-        @RequestBody UserUpdateRequestDTO userUpdateRequestDTO
+        @RequestBody UserUpdateRequestDTO requestDTO
     ) {
         try {
-            UserResponseDTO userResponseDTO = userService.updateUser(
+            UserResponseDTO responseDTO = userService.updateUser(
                 id,
-                userUpdateRequestDTO
+                requestDTO
             );
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(userResponseDTO);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

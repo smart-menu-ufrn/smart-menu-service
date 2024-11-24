@@ -27,15 +27,15 @@ public class ProfileController {
     @PutMapping
     public ResponseEntity<ProfileResponseDTO> updateProfile(
         @PathVariable Long id,
-        @RequestBody ProfileUpdateRequestDTO profileUpdateRequestDTO
+        @RequestBody ProfileUpdateRequestDTO requestDTO
     ) {
         try {
-            ProfileResponseDTO profileResponseDTO = profileService.updateProfile(
+            ProfileResponseDTO responseDTO = profileService.updateProfile(
                 id,
-                profileUpdateRequestDTO
+                requestDTO
             );
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(profileResponseDTO);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
