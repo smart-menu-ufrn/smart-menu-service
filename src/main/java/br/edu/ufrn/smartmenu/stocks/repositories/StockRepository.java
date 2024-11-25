@@ -1,4 +1,4 @@
-package br.edu.ufrn.smartmenu.stock.repositories;
+package br.edu.ufrn.smartmenu.stocks.repositories;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.edu.ufrn.smartmenu.items.models.Item;
-import br.edu.ufrn.smartmenu.stock.models.Stock;
+import br.edu.ufrn.smartmenu.stocks.models.Stock;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long>{

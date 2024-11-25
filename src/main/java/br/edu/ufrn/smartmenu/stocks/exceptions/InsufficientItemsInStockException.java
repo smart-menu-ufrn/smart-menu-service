@@ -1,4 +1,4 @@
-package br.edu.ufrn.smartmenu.stock.exceptions;
+package br.edu.ufrn.smartmenu.stocks.exceptions;
 
 public class InsufficientItemsInStockException extends Exception {
 

@@ -1,7 +1,7 @@
-package br.edu.ufrn.smartmenu.stock.models;
+package br.edu.ufrn.smartmenu.stocks.models;
 
 import br.edu.ufrn.smartmenu.items.models.Item;
-import br.edu.ufrn.smartmenu.stock.exceptions.InsufficientItemsInStockException;
+import br.edu.ufrn.smartmenu.stocks.exceptions.InsufficientItemsInStockException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

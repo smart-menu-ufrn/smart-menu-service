@@ -1,20 +1,20 @@
-package br.edu.ufrn.smartmenu.stock.dtos.responses;
+package br.edu.ufrn.smartmenu.stocks.dtos.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import br.edu.ufrn.smartmenu.items.dtos.responses.ItemResponseDTO;
-import br.edu.ufrn.smartmenu.stock.models.Stock;
+import br.edu.ufrn.smartmenu.stocks.models.Stock;
 
 @JsonInclude(Include.NON_NULL)
-public class StockTransactionResponseDTO {
+public class StockResponseDTO {
 
     private ItemResponseDTO item;
     private Integer quantity;
 
-    public StockTransactionResponseDTO() {}
+    public StockResponseDTO() {}
 
-    public StockTransactionResponseDTO(
+    public StockResponseDTO(
         ItemResponseDTO item,
         Integer quantity
     ) {
@@ -22,7 +22,7 @@ public class StockTransactionResponseDTO {
         this.quantity = quantity;
     }
 
-    public StockTransactionResponseDTO(
+    public StockResponseDTO(
         Stock stock
     ) {
         this.item = new ItemResponseDTO(stock.getItem());

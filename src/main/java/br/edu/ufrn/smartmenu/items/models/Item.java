@@ -1,6 +1,6 @@
 package br.edu.ufrn.smartmenu.items.models;
 
-import br.edu.ufrn.smartmenu.stock.models.Stock;
+import br.edu.ufrn.smartmenu.stocks.models.Stock;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
