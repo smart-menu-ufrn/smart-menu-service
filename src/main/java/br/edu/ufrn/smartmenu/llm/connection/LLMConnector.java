@@ -2,6 +2,9 @@ package br.edu.ufrn.smartmenu.llm.connection;
 
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
+import br.edu.ufrn.smartmenu.llm.exceptions.EmptyLLMResponse;
 import br.edu.ufrn.smartmenu.llm.exceptions.PromptException;
 
 import org.springframework.http.ResponseEntity;
@@ -21,7 +24,7 @@ public class LLMConnector {
         this.apiKey = apiKey;
     }
 
-    public String sendPrompt(String prompt) throws PromptException{
+    public String sendPrompt(String prompt) throws PromptException, EmptyLLMResponse{
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -31,13 +34,22 @@ public class LLMConnector {
         String requestBody = String.format("{\"messages\": [{\"role\": \"user\", \"content\":\"%s\"}], \"model\": \"llama3-8b-8192\"}", prompt);
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
+        JsonNode choicesNode = null;
         try {
-            ResponseEntity<String> response = restTemplate.exchange(
-                apiUrl, HttpMethod.POST, entity, String.class
+            ResponseEntity<JsonNode> response = restTemplate.exchange(
+                apiUrl, HttpMethod.POST, entity, JsonNode.class
             );
-            return response.getBody();
+            choicesNode = response.getBody().path("choices");
         } catch (Exception e) {
-            throw new PromptException("Erro ao conectar com o LLM: " + e.getMessage());
+            throw new PromptException("Erro ao conectar com o LLM. " + e.getMessage());
+        }
+
+        if (choicesNode.isArray() && choicesNode.size() > 0) {
+            JsonNode firstChoice = choicesNode.get(0);
+            JsonNode messageNode = firstChoice.path("message");
+            return messageNode.path("content").asText();
+        } else {
+            throw new EmptyLLMResponse("Campo de resposta Invalido da LLM.");
         }
     }
 

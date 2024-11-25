@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ufrn.smartmenu.llm.exceptions.EmptyLLMResponse;
 import br.edu.ufrn.smartmenu.llm.exceptions.PromptException;
 import br.edu.ufrn.smartmenu.llm.model.PromptRequest;
 import br.edu.ufrn.smartmenu.llm.model.PromptResponse;
@@ -27,7 +28,9 @@ public class LLMController {
 
             return pr;
         } catch (PromptException e) {
-            return new PromptResponse("Erro");
+            return new PromptResponse("Erro no acesso da LLM.");
+        } catch (EmptyLLMResponse e) {
+            return new PromptResponse("Erro na resposta da LLM.");
         }
     }
     
