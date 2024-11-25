@@ -1,6 +1,7 @@
 package br.edu.ufrn.smartmenu.users.models;
 
 import br.edu.ufrn.smartmenu.users.enums.Gender;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,12 +19,15 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true)
     private String name;
 
     @Size(min = 9)
+    @Column(nullable = true)
     private String phone;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
     private Gender gender;
 
     public Profile() {}

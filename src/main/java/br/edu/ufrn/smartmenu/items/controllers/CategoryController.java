@@ -32,20 +32,20 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> getAllCategories() {
-        List<CategoryResponseDTO> categoryResponseDTOList = categoryService.getAllCategories();
+        List<CategoryResponseDTO> responseDTOList = categoryService.getAllCategories();
 
-        return ResponseEntity.status(HttpStatus.OK).body(categoryResponseDTOList);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTOList);
     }
 
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(
-        @RequestBody CategoryCreateRequestDTO categoryCreateRequestDTO
+        @RequestBody CategoryCreateRequestDTO requestDTO
     ) {
-        CategoryResponseDTO categoryResponseDTO = categoryService.createCategory(categoryCreateRequestDTO);
+        CategoryResponseDTO responseDTO = categoryService.createCategory(requestDTO);
 
-        URI location = URI.create("/items/categories/" + categoryResponseDTO.getId());
+        URI location = URI.create("/items/categories/" + responseDTO.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(categoryResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(responseDTO);
     }
 
     @GetMapping("/{id}")
@@ -53,9 +53,9 @@ public class CategoryController {
         @PathVariable Long id
     ) {
         try {
-            CategoryResponseDTO categoryResponseDTO = categoryService.getCategoryById(id);
+            CategoryResponseDTO responseDTO = categoryService.getCategoryById(id);
 
-            return ResponseEntity.status(HttpStatus.OK).body(categoryResponseDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -64,15 +64,15 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> updateCategory(
         @PathVariable Long id,
-        @RequestBody CategoryUpdateRequestDTO categoryUpdateRequestDTO
+        @RequestBody CategoryUpdateRequestDTO requestDTO
     ) {
         try {
-            CategoryResponseDTO categoryResponseDTO = categoryService.updateCategory(
+            CategoryResponseDTO responseDTO = categoryService.updateCategory(
                 id,
-                categoryUpdateRequestDTO
+                requestDTO
             );
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(categoryResponseDTO);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

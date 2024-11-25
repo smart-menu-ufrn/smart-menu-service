@@ -32,21 +32,21 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<ItemResponseDTO>> getAllItems() {
-        List<ItemResponseDTO> itemResponseDTOList = itemService.getAllItems();
+        List<ItemResponseDTO> responseDTOList = itemService.getAllItems();
 
-        return ResponseEntity.status(HttpStatus.OK).body(itemResponseDTOList);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTOList);
     }
 
     @PostMapping
     public ResponseEntity<ItemResponseDTO> createItem(
-        @RequestBody ItemCreateRequestDTO itemCreateRequestDTO
+        @RequestBody ItemCreateRequestDTO requestDTO
     ) {
         try {
-            ItemResponseDTO itemResponseDTO = itemService.createItem(itemCreateRequestDTO);
+            ItemResponseDTO responseDTO = itemService.createItem(requestDTO);
 
-            URI location = URI.create("/items/" + itemResponseDTO.getId());
+            URI location = URI.create("/items/" + responseDTO.getId());
 
-            return ResponseEntity.status(HttpStatus.CREATED).location(location).body(itemResponseDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).location(location).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -57,9 +57,9 @@ public class ItemController {
         @PathVariable Long id
     ) {
         try {
-            ItemResponseDTO itemResponseDTO = itemService.getItemById(id);
+            ItemResponseDTO responseDTO = itemService.getItemById(id);
 
-            return ResponseEntity.status(HttpStatus.OK).body(itemResponseDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -68,15 +68,15 @@ public class ItemController {
     @PutMapping("/{id}")
     public ResponseEntity<ItemResponseDTO> updateItem(
         @PathVariable Long id,
-        @RequestBody ItemUpdateRequestDTO itemUpdateRequestDTO
+        @RequestBody ItemUpdateRequestDTO requestDTO
     ) {
         try {
-            ItemResponseDTO itemResponseDTO = itemService.updateItem(
+            ItemResponseDTO responseDTO = itemService.updateItem(
                 id,
-                itemUpdateRequestDTO
+                requestDTO
             );
 
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(itemResponseDTO);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseDTO);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
