@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/api/llm")
+@RequestMapping("/llm")
 public class LLMController {
 
     @Autowired

@@ -8,7 +8,7 @@ import br.edu.ufrn.smartmenu.llm.exceptions.EmptyLLMResponse;
 import br.edu.ufrn.smartmenu.llm.exceptions.PromptException;
 
 import org.springframework.http.ResponseEntity;
-// import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +16,8 @@ import org.springframework.http.HttpMethod;
 public class LLMConnector {
 
     private final String apiUrl;
-    // @Value("${groq_key:bla}")
+
+    //@Value("${GROQ_KEY:bla}")
     private final String apiKey;
 
     public LLMConnector(String apiUrl, String apiKey) {
@@ -40,6 +41,7 @@ public class LLMConnector {
                 apiUrl, HttpMethod.POST, entity, JsonNode.class
             );
             choicesNode = response.getBody().path("choices");
+            
         } catch (Exception e) {
             throw new PromptException("Erro ao conectar com o LLM. " + e.getMessage());
         }
@@ -48,6 +50,7 @@ public class LLMConnector {
             JsonNode firstChoice = choicesNode.get(0);
             JsonNode messageNode = firstChoice.path("message");
             return messageNode.path("content").asText();
+            
         } else {
             throw new EmptyLLMResponse("Campo de resposta Invalido da LLM.");
         }

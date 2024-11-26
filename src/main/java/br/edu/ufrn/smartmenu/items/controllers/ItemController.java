@@ -22,6 +22,7 @@ import br.edu.ufrn.smartmenu.items.dtos.requests.ItemUpdateRequestDTO;
 import br.edu.ufrn.smartmenu.items.dtos.responses.ItemResponseDTO;
 import br.edu.ufrn.smartmenu.items.services.ItemService;
 
+
 @RestController
 @RequestMapping("/items")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -36,6 +37,17 @@ public class ItemController {
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDTOList);
     }
+
+    @GetMapping("/sort")
+    public ResponseEntity<List<ItemResponseDTO>> getSortedItems() {
+        try {
+            List<ItemResponseDTO> responseDTOList = itemService.getSortedItems();
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTOList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+    
 
     @PostMapping
     public ResponseEntity<ItemResponseDTO> createItem(

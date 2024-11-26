@@ -1,6 +1,10 @@
 package br.edu.ufrn.smartmenu.items.services;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,6 +19,10 @@ import br.edu.ufrn.smartmenu.items.models.Category;
 import br.edu.ufrn.smartmenu.items.models.Item;
 import br.edu.ufrn.smartmenu.items.repositories.CategoryRepository;
 import br.edu.ufrn.smartmenu.items.repositories.ItemRepository;
+import br.edu.ufrn.smartmenu.llm.exceptions.EmptyLLMResponse;
+import br.edu.ufrn.smartmenu.llm.exceptions.PromptException;
+import br.edu.ufrn.smartmenu.llm.model.PromptResponse;
+import br.edu.ufrn.smartmenu.llm.service.LLMService;
 
 @Service
 public class ItemService {
@@ -25,8 +33,50 @@ public class ItemService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private LLMService llm;
+
     public List<ItemResponseDTO> getAllItems() {
         List<Item> itemList = itemRepository.findAll();
+
+        List<ItemResponseDTO> itemResponseDTOList = itemList
+            .stream()
+            .map(ItemResponseDTO::new)
+            .collect(Collectors.toList());
+
+        return itemResponseDTOList;
+    }
+
+    public List<ItemResponseDTO> getSortedItems() throws PromptException, EmptyLLMResponse {
+        List<Item> itemList = itemRepository.findAll();
+
+        String reorderedList = "";
+
+        try {
+            reorderedList = llm.processPrompt(itemList).getResponse();
+        }  catch (PromptException e) {
+            throw e;
+        } catch (EmptyLLMResponse e) {
+            throw e;
+        }
+        System.out.println(reorderedList);
+        if (reorderedList != "") {
+            System.out.println("Entrou != ");
+            List<Long> integerList = Arrays.stream(reorderedList.replaceAll("[\\[\\]]", "").split(","))
+                                              .map(String::trim)
+                                              .map(Long::parseLong)
+                                              .collect(Collectors.toList());
+
+            System.out.println("Passou da conversao");
+            Map<Long, Integer> ordemMap = new HashMap<>();
+            for (int i = 0; i < integerList.size(); i++) {
+                ordemMap.put(integerList.get(i), i);
+            }
+            System.out.println("CRIOU O MAPA");
+
+            itemList.sort(Comparator.comparingLong(obj -> ordemMap.get(obj.getId())));
+            System.out.println("REORDENOU");
+        }
 
         List<ItemResponseDTO> itemResponseDTOList = itemList
             .stream()
