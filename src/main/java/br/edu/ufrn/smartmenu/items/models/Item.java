@@ -53,6 +53,10 @@ public class Item {
         this.stock = new Stock(this);
     }
 
+    public void setId(Long id){
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
