@@ -59,23 +59,17 @@ public class ItemService {
         } catch (EmptyLLMResponse e) {
             throw e;
         }
-        System.out.println(reorderedList);
         if (reorderedList != "") {
-            System.out.println("Entrou != ");
             List<Long> integerList = Arrays.stream(reorderedList.replaceAll("[\\[\\]]", "").split(","))
                                               .map(String::trim)
                                               .map(Long::parseLong)
                                               .collect(Collectors.toList());
-
-            System.out.println("Passou da conversao");
             Map<Long, Integer> ordemMap = new HashMap<>();
             for (int i = 0; i < integerList.size(); i++) {
                 ordemMap.put(integerList.get(i), i);
             }
-            System.out.println("CRIOU O MAPA");
 
             itemList.sort(Comparator.comparingLong(obj -> ordemMap.get(obj.getId())));
-            System.out.println("REORDENOU");
         }
 
         List<ItemResponseDTO> itemResponseDTOList = itemList
