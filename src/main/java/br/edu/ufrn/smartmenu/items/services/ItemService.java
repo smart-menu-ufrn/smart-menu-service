@@ -21,7 +21,6 @@ import br.edu.ufrn.smartmenu.items.repositories.CategoryRepository;
 import br.edu.ufrn.smartmenu.items.repositories.ItemRepository;
 import br.edu.ufrn.smartmenu.llm.exceptions.EmptyLLMResponse;
 import br.edu.ufrn.smartmenu.llm.exceptions.PromptException;
-import br.edu.ufrn.smartmenu.llm.model.PromptResponse;
 import br.edu.ufrn.smartmenu.llm.service.LLMService;
 
 @Service
