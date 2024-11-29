@@ -21,6 +21,8 @@ import br.edu.ufrn.smartmenu.items.dtos.requests.ItemCreateRequestDTO;
 import br.edu.ufrn.smartmenu.items.dtos.requests.ItemUpdateRequestDTO;
 import br.edu.ufrn.smartmenu.items.dtos.responses.ItemResponseDTO;
 import br.edu.ufrn.smartmenu.items.services.ItemService;
+import br.edu.ufrn.smartmenu.llm.exceptions.EmptyLLMResponse;
+import br.edu.ufrn.smartmenu.llm.exceptions.PromptException;
 
 
 @RestController
@@ -43,8 +45,10 @@ public class ItemController {
         try {
             List<ItemResponseDTO> responseDTOList = itemService.getSortedItems();
             return ResponseEntity.status(HttpStatus.OK).body(responseDTOList);
-        } catch (Exception e) {
+        } catch (EmptyLLMResponse e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (PromptException e) {
+            return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).build();
         }
     }
     
